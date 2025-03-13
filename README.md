@@ -9,15 +9,16 @@ with Tron, including retrieving blocks, transactions, and other related informat
 
 This library offers the following features for interacting with the Tron blockchain:
 
-- **/wallet/getblockbyid**: Get block information by block ID.
-- **/wallet/getblockbylatestnum**: Get the latest block information.
-- **/wallet/getnowblock**: Get information about the current block.
-- **/wallet/getblockbynum**: Get block information by block number.
-- **/wallet/getblock**: Get a list of blocks.
-- **/wallet/gettransactioninfobyid**: Get transaction information by transaction ID.
-- **/wallet/gettransactioninfobyblocknum**: Get transaction information in a block by block number.
-- **/wallet/gettransactionbyid**: Get transaction details by transaction ID.
-- **/wallet/triggersmartcontract**: Trigger a smart contract.
+- **/wallet/getblockbyid**: Get block information by block ID [Link](https://developers.tron.network/reference/getblockbyid).
+- **/wallet/getblockbylatestnum**: Get the latest block information [Link](https://developers.tron.network/reference/getblockbylatestnum).
+- **/wallet/getnowblock**: Get information about the current block [Link](https://developers.tron.network/reference/getnowblock).
+- **/wallet/getblockbynum**: Get block information by block number [Link](https://developers.tron.network/reference/getblockbynum).
+- **/wallet/getblock**: Get a list of blocks [Link](https://developers.tron.network/reference/getblock).
+- **/wallet/gettransactioninfobyid**: Get transaction information by transaction ID [Link](https://developers.tron.network/reference/gettransactioninfobyid).
+- **/wallet/gettransactioninfobyblocknum**: Get transaction information in a block by block number [Link](https://developers.tron.network/reference/gettransactioninfobyblocknum).
+- **/wallet/gettransactionbyid**: Get transaction details by transaction ID [Link](https://developers.tron.network/reference/gettransactionbyid).
+- **/wallet/triggersmartcontract**: Trigger a smart contract [Link](https://developers.tron.network/reference/triggersmartcontract).
+- **/wallet/getaccountresource**： Get account resource information [Link](https://developers.tron.network/reference/getaccountresource).
 ## Installation
 
 You can reference this library using JitPack. Add the following code to your project's root `build.gradle` file:

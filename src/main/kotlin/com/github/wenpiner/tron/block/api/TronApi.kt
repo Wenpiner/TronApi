@@ -1,64 +1,41 @@
 package com.github.wenpiner.tron.block.api
 
-import com.github.phish.tron.block.data.Block
-import com.github.phish.tron.block.data.BlockList
-import com.github.phish.tron.block.data.transaction.TransactionInfo
+import com.github.wenpiner.tron.block.api.interceptor.LogInterceptor
+import com.github.wenpiner.tron.block.data.Address
+import com.github.wenpiner.tron.block.data.Block
+import com.github.wenpiner.tron.block.data.BlockList
+import com.github.wenpiner.tron.block.data.TriggerSmartContract
+import com.github.wenpiner.tron.block.data.transaction.TransactionInfo
+import com.github.wenpiner.tron.block.utils.toBytesPaddedHex
 import com.google.gson.Gson
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 import java.io.InputStreamReader
 import java.time.Duration
 
-class TronApi {
-    private lateinit var okHttpClient: OkHttpClient
+class TronApi
+    (baseUrls: Array<String>, headers: Array<Headers?> = emptyArray(), timeout: Duration = Duration.ofSeconds(3)) {
+    private var okHttpClient: OkHttpClient
     private val gson = Gson()
-    private lateinit var infos: Array<Pair<String, Headers>>
+    private lateinit var infos: List<Pair<String, Headers>>
 
-    constructor(
-        baseUrls: Array<String>,
-        headers: Array<Headers?> = emptyArray(),
-        timeout: Duration = Duration.ofSeconds(3)
-    ) {
-        this.okHttpClient = OkHttpClient.Builder()
+    init {
+        val builder = OkHttpClient.Builder()
             .connectTimeout(timeout)
             .readTimeout(timeout)
             .writeTimeout(timeout)
-            .build()
-        baseUrls.forEachIndexed { index, baseUrl ->
+        okHttpClient = builder.build()
+        infos = baseUrls.mapIndexed { index, baseUrl ->
             val header = if (headers.size > index) headers[index] else null
-            infos[index] = Pair(
+            Pair(
                 baseUrl, header ?: Headers.Builder()
                     .add("Content-Type", "application/json")
                     .build()
             )
         }
-    }
-
-    constructor() {
-        this.okHttpClient = OkHttpClient.Builder()
-            .build()
-        infos = arrayOf(
-            Pair(
-                "https://api.trongrid.io",
-                Headers.Builder()
-                    .add("Content-Type", "application/json")
-                    .build()
-            ),
-            Pair(
-                "https://api.trongrid.io",
-                Headers.Builder()
-                    .add("Content-Type", "application/json")
-                    .build()
-            ),
-            Pair(
-                "https://api.trongrid.io",
-                Headers.Builder()
-                    .add("Content-Type", "application/json")
-                    .build()
-            ),
-        )
     }
 
     // 获取块
@@ -136,12 +113,47 @@ class TronApi {
     fun getTransactionById(
         id: String,
         visible: Boolean = false
-    ): Result<com.github.phish.tron.block.data.transaction.Transaction> {
+    ): Result<com.github.wenpiner.tron.block.data.transaction.Transaction> {
         return post(
             "/wallet/gettransactionbyid", mapOf(
                 "value" to id,
                 "visible" to visible,
-            ), com.github.phish.tron.block.data.transaction.Transaction::class.java
+            ), com.github.wenpiner.tron.block.data.transaction.Transaction::class.java
+        )
+    }
+
+    // /wallet/triggersmartcontract 调用合约
+    fun triggerSmartContract(
+        contractAddress: String,
+        functionSelector: String = "",
+        parameter: String = "",
+        data: String = "",
+        feeLimit: Long = 100000000,
+        callValue: Long = 0,
+        ownerAddress: String = "",
+        visible: Boolean = false,
+        callTokenValue: Long = 0L,
+        tokenId: Long = 0L,
+        permissionId: Long = 0L
+    ): Result<TriggerSmartContract> {
+
+
+        // 动态参数
+        val map = mutableMapOf(
+            "contract_address" to contractAddress,
+            "function_selector" to functionSelector,
+            "parameter" to parameter,
+            "fee_limit" to feeLimit,
+            "call_value" to callValue,
+            "data" to data,
+            "visible" to visible,
+            "call_token_value" to callTokenValue,
+            "token_id" to tokenId,
+            "Permission_id" to permissionId,
+            "owner_address" to ownerAddress,
+        )
+        return post(
+            "/wallet/triggersmartcontract", map, TriggerSmartContract::class.java
         )
     }
 
@@ -152,15 +164,16 @@ class TronApi {
             .headers(headers)
             .post(body.toRequestBody())
             .build()
+        var response : Response? = null
         try {
-            val response = okHttpClient.newCall(request).execute()
+            response = okHttpClient.newCall(request).execute()
             if (response.isSuccessful) {
                 // 解析成T泛型，通过gson
                 if (response.body == null) {
                     return Result(null, 500, "response body is null")
                 }
-                val input = InputStreamReader(response.body!!.byteStream())
-                val fromJson = gson.fromJson(input, clazz)
+                val data = response.body!!.string()
+                val fromJson = gson.fromJson(data,clazz)
                 return Result(fromJson, 200, "")
             }
             // 非 200 状态码
@@ -168,9 +181,13 @@ class TronApi {
         } catch (e: IOException) {
             return Result(null, 500, e.message ?: "")
         } catch (e: com.google.gson.JsonSyntaxException) {
+            e.printStackTrace()
             return Result(null, 500, e.message ?: "")
         } catch (e: com.google.gson.JsonIOException) {
+            e.printStackTrace()
             return Result(null, 500, e.message ?: "")
+        }finally {
+            response?.close()
         }
     }
 }

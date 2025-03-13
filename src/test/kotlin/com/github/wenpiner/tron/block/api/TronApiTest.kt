@@ -1,17 +1,17 @@
 package com.github.wenpiner.tron.block.api
 
-import com.github.phish.tron.block.data.Block
-import com.github.phish.tron.block.transaction.contract.ContractType
+import com.github.wenpiner.tron.block.data.Block
+import com.github.wenpiner.tron.block.data.transaction.contract.ContractType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
 class TronApiTest {
 
-    private val tronApi = TronApi()
+    private val tronApi = TronApi(baseUrls = arrayOf("https://api.shasta.trongrid.io"))
 
     @Test
     fun getBlockByIdOrNum() {
-        val result = tronApi.getBlockByIdOrNum("54492401", true)
+        val result = tronApi.getBlockById("202121", true)
         assertTrue(result.data != null && result.code == 200, result.message)
         printInfo(result)
     }
@@ -33,7 +33,8 @@ class TronApiTest {
                 val contractType = it2.parameter.getContractType()
                 if (contractType != null) {
                     if (contractType == ContractType.TriggerSmartContract) {
-                        val triggerSmartContract: com.github.phish.tron.block.data.transaction.contract.BeanTriggerSmartContract = it2.parameter.getValue(contractType)
+                        val triggerSmartContract: com.github.wenpiner.tron.block.data.transaction.contract.BeanTriggerSmartContract =
+                            it2.parameter.getValue(contractType)
                         println("From: ${triggerSmartContract.ownerAddress}")
                         println("Contract: ${triggerSmartContract.contractAddress}")
                         val functionTransfer = triggerSmartContract.functionTransfer()
@@ -56,5 +57,16 @@ class TronApiTest {
         printInfo(result)
     }
 
-
+    @Test
+    fun triggerSmartContract() {
+        val result = tronApi.triggerSmartContract(
+            "TG3XXyExBkPp9nzdajDZsozEu4BkaSJozs",
+            "balanceOf(address)",
+            "00000000000000000000004115208EF33A926919ED270E2FA61367B2DA3753DA0000000000000000000000000000000000000000000000000000000000000032",
+            visible = true,
+            ownerAddress = "TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsnYS2g"
+        )
+//        assertTrue(result.data != null && result.code == 200, result.message)
+        println(result)
+    }
 }

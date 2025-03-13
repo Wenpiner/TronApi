@@ -1,6 +1,6 @@
 package com.github.wenpiner.tron.block.data
 
-import com.github.phish.tron.block.data.BlockHeader
+import com.github.wenpiner.tron.block.data.BlockHeader
 import com.google.gson.annotations.SerializedName
 
 data class Block(
@@ -9,5 +9,5 @@ data class Block(
     @SerializedName("block_header")
     val blockHeader: BlockHeader,
     @SerializedName("transactions")
-    val transactions: List<com.github.phish.tron.block.data.transaction.Transaction>
+    val transactions: List<com.github.wenpiner.tron.block.data.transaction.Transaction>
 )

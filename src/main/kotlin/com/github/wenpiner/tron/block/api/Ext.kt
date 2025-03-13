@@ -26,6 +26,10 @@ fun Map<String, Any>.toRequestBody(): RequestBody {
                 obj.addProperty(it, value)
             }
 
+            is Long -> {
+                obj.addProperty(it, value)
+            }
+
             is Double -> {
                 obj.addProperty(it, value)
             }
@@ -45,4 +49,11 @@ fun Map<String, Any>.toRequestBody(): RequestBody {
         }
     }
     return obj.toString().toRequestBody("application/json".toMediaType())
+}
+
+// 对Byte数组进行操作，转换成16进制，前面补0
+fun ByteArray.toHexString(): String {
+    return this.joinToString("") { byte ->
+        (byte.toInt() and 0xFF).toString(16).padStart(2, '0')
+    }
 }

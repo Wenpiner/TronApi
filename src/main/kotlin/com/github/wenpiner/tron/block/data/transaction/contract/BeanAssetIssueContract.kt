@@ -8,7 +8,7 @@ data class BeanAssetIssueContract(
     @SerializedName("total_supply")
     val totalSupply: Long,
     @SerializedName("frozen_supply")
-    val frozenSupply: List<com.github.phish.tron.block.data.transaction.contract.FrozenSupply>,
+    val frozenSupply: List<com.github.wenpiner.tron.block.data.transaction.contract.FrozenSupply>,
     @SerializedName("trx_num")
     val trxNum: Long,
     @SerializedName("precision")
@@ -35,11 +35,11 @@ data class BeanAssetIssueContract(
     val publicFreeAssetNetUsage: Long,
     @SerializedName("public_latest_free_net_time")
     val publicLatestFreeNetTime: Long,
-) : com.github.phish.tron.block.data.transaction.contract.BeanValue()
+) : com.github.wenpiner.tron.block.data.transaction.contract.BeanValue()
 
 data class FrozenSupply(
     @SerializedName("frozen_amount")
     val frozenAmount: Long,
     @SerializedName("frozen_days")
     val frozenDays: Long,
-) : com.github.phish.tron.block.data.transaction.contract.BeanValue()
+) : com.github.wenpiner.tron.block.data.transaction.contract.BeanValue()

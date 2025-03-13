@@ -1,9 +1,9 @@
 package com.github.wenpiner.tron.block.data.transaction
 
-import com.github.phish.tron.block.data.Address
-import com.github.phish.tron.block.data.transaction.contract.TRC20_Transfer
-import com.github.phish.tron.block.serializer.StringToAddressAdapter
-import com.github.phish.tron.block.utils.toBigInt
+import com.github.wenpiner.tron.block.data.Address
+import com.github.wenpiner.tron.block.data.transaction.contract.TRC20_Transfer
+import com.github.wenpiner.tron.block.serializer.StringToAddressAdapter
+import com.github.wenpiner.tron.block.utils.toBigInt
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 

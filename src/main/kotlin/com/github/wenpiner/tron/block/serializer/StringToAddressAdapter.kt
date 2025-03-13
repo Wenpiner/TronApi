@@ -1,6 +1,6 @@
 package com.github.wenpiner.tron.block.serializer
 
-import com.github.phish.tron.block.data.Address
+import com.github.wenpiner.tron.block.data.Address
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter

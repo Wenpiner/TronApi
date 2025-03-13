@@ -1,6 +1,6 @@
 package com.github.wenpiner.tron.block.data.transaction
 
-import com.github.phish.tron.block.transaction.contract.Contract
+import com.github.wenpiner.tron.block.data.transaction.contract.Contract
 import com.google.gson.annotations.SerializedName
 
 data class RawData(

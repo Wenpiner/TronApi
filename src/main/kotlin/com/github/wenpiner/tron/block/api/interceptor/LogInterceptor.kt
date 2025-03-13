@@ -7,8 +7,10 @@ class LogInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         println("request: ${request.url}")
+        // 打印body
+        println("request body: ${request.body?.toString()}")
         val response = chain.proceed(request)
-        println("response: ${response.body?.string()}")
+//        println("response: ${response.body?.string()}")
         return response
     }
 }

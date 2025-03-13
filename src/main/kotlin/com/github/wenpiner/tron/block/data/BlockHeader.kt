@@ -1,6 +1,6 @@
 package com.github.wenpiner.tron.block.data
 
-import com.github.phish.tron.block.serializer.StringToAddressAdapter
+import com.github.wenpiner.tron.block.serializer.StringToAddressAdapter
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 

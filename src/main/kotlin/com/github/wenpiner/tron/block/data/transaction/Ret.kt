@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Ret(
     @SerializedName("contractRet")
-    val contractRet: com.github.phish.tron.block.data.transaction.ContractRet,
+    val contractRet: com.github.wenpiner.tron.block.data.transaction.ContractRet,
     @SerializedName("ret")
-    val ret: com.github.phish.tron.block.data.transaction.RetResult
+    val ret: com.github.wenpiner.tron.block.data.transaction.RetResult
 )

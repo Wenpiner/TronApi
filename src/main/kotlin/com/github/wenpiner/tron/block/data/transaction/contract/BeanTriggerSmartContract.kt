@@ -1,7 +1,7 @@
 package com.github.wenpiner.tron.block.data.transaction.contract
 
-import com.github.phish.tron.block.data.Address
-import com.github.phish.tron.block.serializer.StringToAddressAdapter
+import com.github.wenpiner.tron.block.data.Address
+import com.github.wenpiner.tron.block.serializer.StringToAddressAdapter
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.math.BigInteger
@@ -12,7 +12,7 @@ data class BeanTriggerSmartContract(
     val contractAddress: Address,
     @SerializedName("data")
     val data: String,
-) : com.github.phish.tron.block.data.transaction.contract.BeanValue() {
+) : com.github.wenpiner.tron.block.data.transaction.contract.BeanValue() {
     private fun isTransfer(): Boolean {
         return data.startsWith("a9059cbb") && data.length >= 136
     }
@@ -22,14 +22,14 @@ data class BeanTriggerSmartContract(
     }
 
 
-    fun functionTransfer(): com.github.phish.tron.block.data.transaction.contract.TRC20_Transfer? {
+    fun functionTransfer(): com.github.wenpiner.tron.block.data.transaction.contract.TRC20_Transfer? {
         if (!isTransfer() && !isTransferFrom()) {
             return null
         }
         val from = ownerAddress
         val to = Address(data.substring(8, 72))
         val value = data.substring(72, 72 + 64)
-        return com.github.phish.tron.block.data.transaction.contract.TRC20_Transfer(
+        return com.github.wenpiner.tron.block.data.transaction.contract.TRC20_Transfer(
             from,
             to,
             contractAddress,

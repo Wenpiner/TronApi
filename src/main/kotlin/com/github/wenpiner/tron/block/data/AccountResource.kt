@@ -2,6 +2,13 @@ package com.github.wenpiner.tron.block.data
 
 import com.google.gson.annotations.SerializedName
 
+data class M(
+    @SerializedName("key")
+    val key: String,
+    @SerializedName("value")
+    val value: Long
+)
+
 data class AccountResource(
     @SerializedName("freeNetUsed")
     val freeNetUsed: Long,
@@ -30,7 +37,7 @@ data class AccountResource(
     @SerializedName("TotalEnergyWeight")
     val totalEnergyWeight: Long,
     @SerializedName("assetNetUsed")
-    val assetNetUsed: Map<String, Long>,
+    val assetNetUsed: List<M>,
     @SerializedName("assetNetLimit")
-    val assetNetLimit: Map<String, Long>
+    val assetNetLimit: List<M>
 )

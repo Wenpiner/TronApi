@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.*
 
 class TronApiTest {
 
-    private val tronApi = TronApi(baseUrls = arrayOf("https://api.shasta.trongrid.io"))
+    private val tronApi = TronApi(baseUrls = arrayOf("https://api.trongrid.io"))
 
     @Test
     fun getBlockByIdOrNum() {
@@ -67,6 +67,13 @@ class TronApiTest {
             ownerAddress = "TZ4UXDV5ZhNW7fb2AMSbgfAEZ7hWsnYS2g"
         )
 //        assertTrue(result.data != null && result.code == 200, result.message)
+        println(result)
+    }
+
+    @Test
+    fun getAccountResource() {
+        val result = tronApi.getAccountResource("TLaGjwhvA8XQYSxFAcAXy7Dvuue9eGYitv", visible = true)
+        assertTrue(result.data != null && result.code == 200, result.message)
         println(result)
     }
 }

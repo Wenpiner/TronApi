@@ -170,6 +170,19 @@ class TronApi
         )
     }
 
+    // /wallet/getaccount
+    fun getAccount(
+        address: String,
+        visible: Boolean = false
+    ): Result<com.github.wenpiner.tron.block.data.GetAccount> {
+        return post(
+            "/wallet/getaccount", mapOf(
+                "address" to address,
+                "visible" to visible,
+            ), com.github.wenpiner.tron.block.data.GetAccount::class.java
+        )
+    }
+
     private fun <T> post(url: String, body: Map<String, Any>, clazz: Class<T>): Result<T> {
         val (baseUrl, headers) = infos.random()
         val request = Request.Builder()

@@ -19,6 +19,7 @@ This library offers the following features for interacting with the Tron blockch
 - **/wallet/gettransactionbyid**: Get transaction details by transaction ID [Link](https://developers.tron.network/reference/gettransactionbyid).
 - **/wallet/triggersmartcontract**: Trigger a smart contract [Link](https://developers.tron.network/reference/triggersmartcontract).
 - **/wallet/getaccountresource**： Get account resource information [Link](https://developers.tron.network/reference/getaccountresource).
+- **/wallet/getaccount**: Get account information [Link](https://developers.tron.network/reference/getaccount).
 ## Installation
 
 You can reference this library using JitPack. Add the following code to your project's root `build.gradle` file:

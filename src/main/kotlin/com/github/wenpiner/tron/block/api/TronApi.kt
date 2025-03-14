@@ -1,16 +1,15 @@
 package com.github.wenpiner.tron.block.api
 
 import com.github.wenpiner.tron.block.api.interceptor.LogInterceptor
-import com.github.wenpiner.tron.block.data.Address
-import com.github.wenpiner.tron.block.data.Block
-import com.github.wenpiner.tron.block.data.BlockList
-import com.github.wenpiner.tron.block.data.TriggerSmartContract
+import com.github.wenpiner.tron.block.data.*
 import com.github.wenpiner.tron.block.data.transaction.TransactionInfo
 import com.github.wenpiner.tron.block.utils.toBytesPaddedHex
 import com.google.gson.Gson
 import okhttp3.Headers
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 import java.io.InputStreamReader
@@ -183,12 +182,42 @@ class TronApi
         )
     }
 
-    private fun <T> post(url: String, body: Map<String, Any>, clazz: Class<T>): Result<T> {
+    // /wallet/broadcasttransaction
+    fun broadcastTransaction(
+        data: Request,
+    ): Result<BroadcastTransaction> {
+        return post(
+            "/wallet/broadcasttransaction", data, BroadcastTransaction::class.java
+        )
+    }
+
+    // /wallet/broadcasthex
+    fun broadcastHex(
+        hex: String,
+    ): Result<BroadcastHex> {
+        return post(
+            "/wallet/broadcasthex", mapOf(
+                "transaction" to hex,
+            ), BroadcastHex::class.java
+        )
+    }
+
+    private fun <T> post(url: String, body: Any, clazz: Class<T>): Result<T> {
+        val json = gson.toJson(body)
+        return post(url, json, clazz)
+    }
+
+    private fun <T> post(url: String, params: Map<String, Any>, clazz: Class<T>): Result<T> {
+        val json = gson.toJson(params)
+        return post(url, json, clazz)
+    }
+
+    private fun <T> post(url: String, body: String, clazz: Class<T>): Result<T> {
         val (baseUrl, headers) = infos.random()
         val request = Request.Builder()
             .url(baseUrl + url)
             .headers(headers)
-            .post(body.toRequestBody())
+            .post(body.toRequestBody("application/json".toMediaType()))
             .build()
         var response : Response? = null
         try {

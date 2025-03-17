@@ -160,12 +160,12 @@ class TronApi
     fun getAccountResource(
         address: String,
         visible: Boolean = false
-    ): Result<com.github.wenpiner.tron.block.data.AccountResource> {
+    ): Result<AccountResource> {
         return post(
             "/wallet/getaccountresource", mapOf(
                 "address" to address,
                 "visible" to visible,
-            ), com.github.wenpiner.tron.block.data.AccountResource::class.java
+            ), AccountResource::class.java
         )
     }
 
@@ -173,12 +173,12 @@ class TronApi
     fun getAccount(
         address: String,
         visible: Boolean = false
-    ): Result<com.github.wenpiner.tron.block.data.GetAccount> {
+    ): Result<GetAccount> {
         return post(
             "/wallet/getaccount", mapOf(
                 "address" to address,
                 "visible" to visible,
-            ), com.github.wenpiner.tron.block.data.GetAccount::class.java
+            ), GetAccount::class.java
         )
     }
 
@@ -199,6 +199,19 @@ class TronApi
             "/wallet/broadcasthex", mapOf(
                 "transaction" to hex,
             ), BroadcastHex::class.java
+        )
+    }
+
+    // /wallet/getcontract
+    fun getContract(
+        value: String,
+        visible: Boolean = false
+    ): Result<ContractInfo> {
+        return post(
+            "/wallet/getcontract", mapOf(
+                "value" to value,
+                "visible" to visible,
+            ), ContractInfo::class.java
         )
     }
 

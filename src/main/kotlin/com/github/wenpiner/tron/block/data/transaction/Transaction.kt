@@ -10,6 +10,7 @@ data class Transaction(
     @SerializedName("raw_data_hex")
     val rawDataHex: String,
     @SerializedName("ret")
+
     val ret: List<Ret>,
     @SerializedName("raw_data")
     val rawData: RawData,

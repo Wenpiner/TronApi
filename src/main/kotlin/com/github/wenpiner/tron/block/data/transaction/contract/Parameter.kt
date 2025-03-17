@@ -1,6 +1,7 @@
 package com.github.wenpiner.tron.block.data.transaction.contract
 
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
@@ -8,7 +9,7 @@ data class Parameter(
     @SerializedName("type_url")
     val typeUrl: String,
     @SerializedName("value")
-    private val rawVal: JsonObject
+    private val rawVal: JsonElement
 ) {
     fun <T : BeanValue> getValue(contractType: ContractType): T {
         return Gson().fromJson<T>(rawVal, contractType.clazz)
